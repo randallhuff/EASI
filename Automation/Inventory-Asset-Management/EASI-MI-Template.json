@@ -1,1 +1,705 @@
-
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters":
+    {
+        "workflows_EASI-MI-LA-AssetManagement_name":
+        {
+            "defaultValue": "EASI-MI-LA-AssetManagement",
+            "type": "String"
+        },
+        "EASMWorkspaceName":
+        {
+            "defaultValue": "",
+            "type": "String"
+        },
+        "userAssignedIdentities_externalid":
+        {
+            "defaultValue": "",
+            "type": "String",
+            "metadata":
+            {
+                "description": "ManagedIdentity Resource Id /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{managedIdentityName}"
+            }
+        },
+        "RunFrequency":
+        {
+            "defaultValue": 24,
+            "type": "Int",
+            "metadata":
+            {
+                "description": "Schedule in Hours"
+            }
+        },
+        "api-version":
+        {
+            "defaultValue": "2024-03-01-preview",
+            "type": "String"
+        },
+        "maxpagesize":
+        {
+            "defaultValue": "50",
+            "type": "String"
+        },
+        "LabelName":
+        {
+            "defaultValue": "",
+            "type": "String",
+            "metadata":
+            {
+                "description": "Label Assets will be tagged with"
+            }
+        },
+        "LabelColor":
+        {
+            "defaultValue": "blue",
+            "type": "String",
+            "metadata":
+            {
+                "description": "Color options: red, bronze, yellow, brown, lime, green, teal, blue, purple, pink, silver, grey"
+            }
+        },
+        "LabelDisplayName":
+        {
+            "defaultValue": "",
+            "type": "String",
+            "metadata":
+            {
+                "description": "Label display text"
+            }
+        },
+        "filter":
+        {
+            "defaultValue": "",
+            "type": "String",
+            "metadata":
+            {
+                "description": "Inventory Asset Query"
+            }
+        },
+        "stateValue":
+        {
+            "defaultValue": "",
+            "type": "String",
+            "metadata":
+            {
+                "description": "allowed values: archived, candidate, associatedThirdparty, associated, dismissed, candidateInvestigate, confirmed, associatedPartner"
+            }
+        }
+    },
+    "variables":
+    {},
+    "resources":
+    [
+        {
+            "type": "Microsoft.Logic/workflows",
+            "apiVersion": "2017-07-01",
+            "name": "[parameters('workflows_EASI-MI-LA-AssetManagement_name')]",
+            "location": "[resourceGroup().location]",
+            "identity":
+            {
+                "type": "UserAssigned",
+                "userAssignedIdentities":
+                {
+                    "[parameters('userAssignedIdentities_externalid')]":
+                    {}
+                }
+            },
+            "properties":
+            {
+                "state": "Enabled",
+                "definition":
+                {
+                    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters":
+                    {
+                        "EASMWorkspaceName":
+                        {
+                            "defaultValue": "",
+                            "type": "String"
+                        },
+                        "LabelName":
+                        {
+                            "type": "String"
+                        },
+                        "LabelColor":
+                        {
+                            "defaultValue": "blue",
+                            "type": "String"
+                        },
+                        "LabelDisplayName":
+                        {
+                            "defaultValue": "",
+                            "type": "String"
+                        },
+                        "Region":
+                        {
+                            "defaultValue": "[resourceGroup().location]",
+                            "type": "String"
+                        },
+                        "ResourceGroupName":
+                        {
+                            "defaultValue": "[resourceGroup().name]",
+                            "type": "String"
+                        },
+                        "SubscriptionId":
+                        {
+                            "defaultValue": "[subscription().subscriptionId]",
+                            "type": "String"
+                        },
+                        "TenantId":
+                        {
+                            "defaultValue": "",
+                            "type": "String"
+                        },
+                        "api-version":
+                        {
+                            "defaultValue": "2022-11-01-preview",
+                            "type": "String"
+                        },
+                        "filter":
+                        {
+                            "defaultValue": "",
+                            "type": "String"
+                        },
+                        "maxpagesize":
+                        {
+                            "defaultValue": "50",
+                            "type": "String"
+                        },
+                        "stateValue":
+                        {
+                            "defaultValue": "",
+                            "type": "String"
+                        },
+                        "RunFrequency":
+                        {
+                            "defaultValue": 24,
+                            "type": "Int"
+                        },
+                        "$connections":
+                        {
+                            "defaultValue":
+                            {},
+                            "type": "Object"
+                        }
+                    },
+                    "triggers":
+                    {
+                        "Recurrence":
+                        {
+                            "recurrence":
+                            {
+                                "frequency": "Hour",
+                                "timeZone": "Central Standard Time",
+                                "interval": 12
+                            },
+                            "evaluatedRecurrence":
+                            {
+                                "frequency": "Hour",
+                                "timeZone": "Central Standard Time",
+                                "interval": 12
+                            },
+                            "type": "Recurrence",
+                            "runtimeConfiguration":
+                            {
+                                "concurrency":
+                                {
+                                    "runs": 1
+                                }
+                            }
+                        }
+                    },
+                    "actions":
+                    {
+                        "Update_EASM_Asset":
+                        {
+                            "runAfter":
+                            {
+                                "Update_Condition":
+                                [
+                                    "Failed",
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "Http",
+                            "inputs":
+                            {
+                                "uri": "https://@{parameters('Region')}.easm.defender.microsoft.com/subscriptions/@{parameters('SubscriptionId')}/resourceGroups/@{parameters('ResourceGroupName')}/workspaces/@{parameters('EASMWorkspaceName')}/assets",
+                                "method": "PATCH",
+                                "headers":
+                                {
+                                    "Content-Type": "application/json",
+                                    "User-Agent": "EASI-LogicApps-AssetManagement"
+                                },
+                                "queries":
+                                {
+                                    "api-version": "@{parameters('api-version')}",
+                                    "filter": "@{parameters('filter')}"
+                                },
+                                "body": "@variables('updateBody')",
+                                "authentication":
+                                {
+                                    "audience": "https://easm.defender.microsoft.com/",
+                                    "identity": "[parameters('userAssignedIdentities_externalid')]",
+                                    "type": "ManagedServiceIdentity"
+                                },
+                                "retryPolicy":
+                                {
+                                    "type": "fixed",
+                                    "count": 10,
+                                    "interval": "PT20S"
+                                }
+                            },
+                            "description": "Update Alerted EASM Assets with a label to track history ",
+                            "runtimeConfiguration":
+                            {
+                                "contentTransfer":
+                                {
+                                    "transferMode": "Chunked"
+                                }
+                            }
+                        },
+                        "Initialize_JobId_Var":
+                        {
+                            "runAfter":
+                            {
+                                "Initialize_updateBody_Var":
+                                [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "InitializeVariable",
+                            "inputs":
+                            {
+                                "variables":
+                                [
+                                    {
+                                        "name": "JobId",
+                                        "type": "string"
+                                    }
+                                ]
+                            }
+                        },
+                        "Initialize_updateBody_Var":
+                        {
+                            "runAfter":
+                            {},
+                            "type": "InitializeVariable",
+                            "inputs":
+                            {
+                                "variables":
+                                [
+                                    {
+                                        "name": "updateBody",
+                                        "type": "object",
+                                        "value":
+                                        {}
+                                    }
+                                ]
+                            }
+                        },
+                        "Update_Condition":
+                        {
+                            "actions":
+                            {
+                                "Set_updateBody":
+                                {
+                                    "type": "SetVariable",
+                                    "inputs":
+                                    {
+                                        "name": "updateBody",
+                                        "value":
+                                        {
+                                            "labels":
+                                            {
+                                                "@{parameters('LabelName')}": true
+                                            },
+                                            "state": "@{parameters('stateValue')}"
+                                        }
+                                    }
+                                }
+                            },
+                            "runAfter":
+                            {
+                                "Initialize_JobId_Var":
+                                [
+                                    "Succeeded"
+                                ]
+                            },
+                            "else":
+                            {
+                                "actions":
+                                {
+                                    "update_label_or_state":
+                                    {
+                                        "actions":
+                                        {
+                                            "Set_updateBody_2":
+                                            {
+                                                "type": "SetVariable",
+                                                "inputs":
+                                                {
+                                                    "name": "updateBody",
+                                                    "value":
+                                                    {
+                                                        "labels":
+                                                        {
+                                                            "@{parameters('LabelName')}": true
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "else":
+                                        {
+                                            "actions":
+                                            {
+                                                "Set_updateBody_3":
+                                                {
+                                                    "type": "SetVariable",
+                                                    "inputs":
+                                                    {
+                                                        "name": "updateBody",
+                                                        "value":
+                                                        {
+                                                            "state": "@{parameters('stateValue')}"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "expression":
+                                        {
+                                            "and":
+                                            [
+                                                {
+                                                    "greater":
+                                                    [
+                                                        "@length(parameters('LabelName'))",
+                                                        1
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        "type": "If"
+                                    }
+                                }
+                            },
+                            "expression":
+                            {
+                                "and":
+                                [
+                                    {
+                                        "greater":
+                                        [
+                                            "@length(parameters('stateValue'))",
+                                            1
+                                        ]
+                                    },
+                                    {
+                                        "greater":
+                                        [
+                                            "@length(parameters('LabelName'))",
+                                            1
+                                        ]
+                                    }
+                                ]
+                            },
+                            "type": "If"
+                        },
+                        "Condition":
+                        {
+                            "actions":
+                            {
+                                "Create_Label":
+                                {
+                                    "type": "Http",
+                                    "inputs":
+                                    {
+                                        "uri": "https://management.azure.com/subscriptions/@{parameters('SubscriptionId')}/resourceGroups/@{parameters('ResourceGroupName')}/providers/Microsoft.Easm/workspaces/@{parameters('EASMWorkspaceName')}/labels/@{parameters('LabelName')}?",
+                                        "method": "PUT",
+                                        "headers":
+                                        {
+                                            "Content-Type": "application/json",
+                                            "User-Agent": "EASI-LogicApps-AssetManagement",
+                                            "Accept": "application/json"
+                                        },
+                                        "queries":
+                                        {
+                                            "api-version": "2022-04-01-preview"
+                                        },
+                                        "body":
+                                        {
+                                            "properties":
+                                            {
+                                                "color": "[parameters('LabelColor')]",
+                                                "displayName": "[parameters('LabelDisplayName')]"
+                                            }
+                                        },
+                                        "authentication":
+                                        {
+                                            "type": "ManagedServiceIdentity",
+                                            "identity": "[parameters('userAssignedIdentities_externalid')]",
+                                            "audience": "https://management.core.windows.net/"
+                                        }
+                                    },
+                                    "runtimeConfiguration":
+                                    {
+                                        "contentTransfer":
+                                        {
+                                            "transferMode": "Chunked"
+                                        }
+                                    }
+                                },
+                                "Update_Assets":
+                                {
+                                    "runAfter":
+                                    {
+                                        "Create_Label":
+                                        [
+                                            "Succeeded"
+                                        ]
+                                    },
+                                    "type": "Http",
+                                    "inputs":
+                                    {
+                                        "uri": "https://@{parameters('Region')}.easm.defender.microsoft.com/subscriptions/@{parameters('SubscriptionId')}/resourceGroups/@{parameters('ResourceGroupName')}/workspaces/@{parameters('EASMWorkspaceName')}/assets",
+                                        "method": "PATCH",
+                                        "headers":
+                                        {
+                                            "Content-Type": "application/json",
+                                            "User-Agent": "EASI-LogicApps-AssetManagement"
+                                        },
+                                        "queries":
+                                        {
+                                            "api-version": "@{parameters('api-version')}",
+                                            "filter": "@{parameters('filter')}"
+                                        },
+                                        "body": "@variables('updateBody')",
+                                        "authentication":
+                                        {
+                                            "type": "ManagedServiceIdentity",
+                                            "identity": "[parameters('userAssignedIdentities_externalid')]",
+                                            "audience": "https://easm.defender.microsoft.com/"
+                                        }
+                                    },
+                                    "runtimeConfiguration":
+                                    {
+                                        "contentTransfer":
+                                        {
+                                            "transferMode": "Chunked"
+                                        }
+                                    }
+                                },
+                                "Set_var_jobId":
+                                {
+                                    "runAfter":
+                                    {
+                                        "Update_Assets":
+                                        [
+                                            "Succeeded"
+                                        ]
+                                    },
+                                    "type": "SetVariable",
+                                    "inputs":
+                                    {
+                                        "name": "JobId",
+                                        "value": "@body('Update_Assets')?['id']"
+                                    }
+                                }
+                            },
+                            "runAfter":
+                            {
+                                "Update_EASM_Asset":
+                                [
+                                    "Failed",
+                                    "Succeeded"
+                                ]
+                            },
+                            "else":
+                            {
+                                "actions":
+                                {
+                                    "Condition_4":
+                                    {
+                                        "actions":
+                                        {
+                                            "Set_var_jobId_2":
+                                            {
+                                                "type": "SetVariable",
+                                                "inputs":
+                                                {
+                                                    "name": "JobId",
+                                                    "value": "@body('Update_EASM_Asset')?['id']"
+                                                }
+                                            }
+                                        },
+                                        "else":
+                                        {
+                                            "actions":
+                                            {
+                                                "Terminate":
+                                                {
+                                                    "type": "Terminate",
+                                                    "inputs":
+                                                    {
+                                                        "runStatus": "Failed"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "expression":
+                                        {
+                                            "and":
+                                            [
+                                                {
+                                                    "equals":
+                                                    [
+                                                        "@outputs('Update_EASM_Asset')?['statusCode']",
+                                                        200
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        "type": "If"
+                                    }
+                                }
+                            },
+                            "expression":
+                            {
+                                "and":
+                                [
+                                    {
+                                        "equals":
+                                        [
+                                            "@outputs('Update_EASM_Asset')?['statusCode']",
+                                            400
+                                        ]
+                                    }
+                                ]
+                            },
+                            "type": "If",
+                            "description": "If label does not exist, this path creates it and then updates assets with newly created label"
+                        },
+                        "Until":
+                        {
+                            "actions":
+                            {
+                                "check_job_status":
+                                {
+                                    "type": "Http",
+                                    "inputs":
+                                    {
+                                        "uri": "https://@{parameters('Region')}.easm.defender.microsoft.com/subscriptions/@{parameters('SubscriptionId')}/resourceGroups/@{parameters('ResourceGroupName')}/workspaces/@{parameters('EASMWorkspaceName')}/tasks/@{variables('JobId')}",
+                                        "method": "GET",
+                                        "headers":
+                                        {
+                                            "Content-Type": "application/json",
+                                            "User-Agent": "EASI-LogicApps-AssetManagement"
+                                        },
+                                        "queries":
+                                        {
+                                            "api-version": "@{parameters('api-version')}"
+                                        },
+                                        "authentication":
+                                        {
+                                            "type": "ManagedServiceIdentity",
+                                            "identity": "[parameters('userAssignedIdentities_externalid')]",
+                                            "audience": "https://easm.defender.microsoft.com/"
+                                        }
+                                    },
+                                    "runtimeConfiguration":
+                                    {
+                                        "contentTransfer":
+                                        {
+                                            "transferMode": "Chunked"
+                                        }
+                                    }
+                                },
+                                "Delay":
+                                {
+                                    "runAfter":
+                                    {
+                                        "check_job_status":
+                                        [
+                                            "Succeeded"
+                                        ]
+                                    },
+                                    "type": "Wait",
+                                    "inputs":
+                                    {
+                                        "interval":
+                                        {
+                                            "count": 10,
+                                            "unit": "Minute"
+                                        }
+                                    }
+                                }
+                            },
+                            "runAfter":
+                            {
+                                "Condition":
+                                [
+                                    "Succeeded"
+                                ]
+                            },
+                            "expression": "@equals(equals(body('check_job_status')?['state'], 'complete'),'complete')",
+                            "limit":
+                            {
+                                "count": 8,
+                                "timeout": "PT2H"
+                            },
+                            "type": "Until"
+                        }
+                    }
+                },
+                "parameters":
+                {
+                    "$connections":
+                    {
+                        "value":
+                        {}
+                    },
+                    "EASMWorkspaceName":
+                    {
+                        "value": "[parameters('EASMWorkspaceName')]"
+                    },
+                    "RunFrequency":
+                    {
+                        "value": "[parameters('RunFrequency')]"
+                    },
+                    "api-version":
+                    {
+                        "value": "[parameters('api-version')]"
+                    },
+                    "LabelName":
+                    {
+                        "value": "[parameters('LabelName')]"
+                    },
+                    "LabelColor":
+                    {
+                        "value": "[parameters('LabelColor')]"
+                    },
+                    "LabelDisplayName":
+                    {
+                        "value": "[parameters('LabelDisplayName')]"
+                    },
+                    "filter":
+                    {
+                        "value": "[parameters('filter')]"
+                    },
+                    "maxpagesize":
+                    {
+                        "value": "[parameters('maxpagesize')]"
+                    },
+                    "stateValue":
+                    {
+                        "value": "[parameters('stateValue')]"
+                    }
+                }
+            }
+        }
+    ]
+}
