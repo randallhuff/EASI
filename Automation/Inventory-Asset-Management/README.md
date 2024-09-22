@@ -17,4 +17,4 @@ MDEASM API in this template supports managed identity Authentication which requi
 Atleast one of the parameters 'LabelName' and/or 'StateValue' is needed to be set for the template to run.
 MDEASM filter parameter needs to be set to an appropriate value to query inventory assets. Refer MDEASM API documentation For Example: here's a query to monitor and alert for all assets with CVSS Score >= 8 state="confirmed" and kind = "page" and rooturl = true and cvssScore >= 8
 Deployment
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Frandallhuff%2FEASI%2Frefs%2Fheads%2Fmain%2FAutomation%2FInventory-Asset-Management%2FEASI-MI-Template.json
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Frandallhuff%2FEASI%2Frefs%2Fheads%2Fmain%2FAutomation%2FInventory-Asset-Management%2FEASI-MI-Template.json)
