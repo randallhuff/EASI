@@ -54,6 +54,21 @@
         {
             "defaultValue": "blue",
             "type": "String",
+            "allowedValues":
+            [
+                "red",
+                "bronze",
+                "yellow",
+                "brown",
+                "lime",
+                "green",
+                "teal",
+                "blue",
+                "purple",
+                "pink",
+                "silver",
+                "grey"
+            ],
             "metadata":
             {
                 "description": "Color options: red, bronze, yellow, brown, lime, green, teal, blue, purple, pink, silver, grey"
@@ -79,11 +94,21 @@
         },
         "stateValue":
         {
-            "defaultValue": "",
+            "defaultValue": "confirmed",
             "type": "String",
+            "allowedValues":
+            [
+                "archived",
+                "candidate",
+                "associatedThirdparty",
+                "dismissed",
+                "candidateInvestigate",
+                "confirmed",
+                "associatedPartner"
+            ],
             "metadata":
             {
-                "description": "allowed values: archived, candidate, associatedThirdparty, associated, dismissed, candidateInvestigate, confirmed, associatedPartner"
+                "description": "allowed values: archived[Archived], candidate[Candidate], associatedThirdparty[Dependency], dismissed[Dismissed], candidateInvestigate[Requires Investigation], confirmed[Approved], associatedPartner[Monitor Only]"
             }
         }
     },
