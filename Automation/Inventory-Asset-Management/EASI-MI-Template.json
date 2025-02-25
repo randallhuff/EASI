@@ -506,7 +506,7 @@
                                     "type": "Http",
                                     "inputs":
                                     {
-                                        "uri": "https://@{parameters('EASM_Region')}.easm.defender.microsoft.com/subscriptions/@{parameters('SubscriptionId')}/resourceGroups/@{parameters('ResourceGroupName')}/workspaces/@{parameters('EASMWorkspaceName')}/assets",
+                                        "uri": "https://@{parameters('EASMRegion')}.easm.defender.microsoft.com/subscriptions/@{parameters('SubscriptionId')}/resourceGroups/@{parameters('ResourceGroupName')}/workspaces/@{parameters('EASMWorkspaceName')}/assets",
                                         "method": "PATCH",
                                         "headers":
                                         {
@@ -703,7 +703,7 @@
                         "value":
                         {}
                     },
-                    "Region":
+                    "EASMRegion":
                     {
                         "value": "[parameters('EASM_Region')]"
                     },
