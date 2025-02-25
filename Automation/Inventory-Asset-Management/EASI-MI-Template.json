@@ -162,7 +162,7 @@
                         },
                         "Region":
                         {
-                            "defaultValue": "[resourceGroup().location]",
+                            "defaultValue": "",
                             "type": "string",
                             "metadata":
                             {
