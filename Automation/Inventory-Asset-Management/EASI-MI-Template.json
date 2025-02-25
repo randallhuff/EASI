@@ -122,7 +122,7 @@
             "type": "Microsoft.Logic/workflows",
             "apiVersion": "2017-07-01",
             "name": "[parameters('workflows_EASI-MI-LA-AssetManagement_name')]",
-            "location": "[resourceGroup().location]",
+            "location": "eastus",
             "identity":
             {
                 "type": "UserAssigned",
