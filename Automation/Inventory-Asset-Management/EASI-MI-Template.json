@@ -169,7 +169,7 @@
                             "defaultValue": "",
                             "type": "string"
                         },
-                        "Region":
+                        "EASM_Region":
                         {
                             "defaultValue": "parameters('EASM_Region')",
                             "type": "string"
