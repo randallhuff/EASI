@@ -229,13 +229,13 @@
                             {
                                 "frequency": "Hour",
                                 "timeZone": "Central Standard Time",
-                                "interval": "parameters('RunFrequency')"
+                                "interval": "[parameters('RunFrequency')]"
                             },
                             "evaluatedRecurrence":
                             {
                                 "frequency": "Hour",
                                 "timeZone": "Central Standard Time",
-                                "interval": "parameters('RunFrequency')"
+                                "interval": "[parameters('RunFrequency')]"
                             },
                             "type": "Recurrence",
                             "runtimeConfiguration":
