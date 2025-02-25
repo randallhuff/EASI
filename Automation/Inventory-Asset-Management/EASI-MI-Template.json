@@ -171,7 +171,7 @@
                         },
                         "EASM_Region":
                         {
-                            "defaultValue": "[parameters('EASM_Region')]",
+                            "defaultValue": "eastus",
                             "type": "string"
                         },
                         "Region":
