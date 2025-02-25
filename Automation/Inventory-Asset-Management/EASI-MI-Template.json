@@ -6,17 +6,17 @@
         "workflows_EASI-MI-LA-AssetManagement_name":
         {
             "defaultValue": "EASI-MI-LA-AssetManagement",
-            "type": "String"
+            "type": "string"
         },
         "EASMWorkspaceName":
         {
             "defaultValue": "",
-            "type": "String"
+            "type": "string"
         },
         "userAssignedIdentities_externalid":
         {
             "defaultValue": "",
-            "type": "String",
+            "type": "string",
             "metadata":
             {
                 "description": "ManagedIdentity Resource Id /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{managedIdentityName}"
@@ -25,7 +25,7 @@
         "RunFrequency":
         {
             "defaultValue": 24,
-            "type": "Int",
+            "type": "int",
             "metadata":
             {
                 "description": "Schedule in Hours"
@@ -34,17 +34,17 @@
         "api-version":
         {
             "defaultValue": "2024-03-01-preview",
-            "type": "String"
+            "type": "string"
         },
         "maxpagesize":
         {
             "defaultValue": "50",
-            "type": "String"
+            "type": "string"
         },
         "LabelName":
         {
             "defaultValue": "",
-            "type": "String",
+            "type": "string",
             "metadata":
             {
                 "description": "Label Assets will be tagged with"
@@ -53,7 +53,7 @@
         "LabelColor":
         {
             "defaultValue": " ",
-            "type": "String",
+            "type": "string",
             "allowedValues":
             [
                 " ",
@@ -78,7 +78,7 @@
         "LabelDisplayName":
         {
             "defaultValue": "",
-            "type": "String",
+            "type": "string",
             "metadata":
             {
                 "description": "Label display text"
@@ -87,7 +87,7 @@
         "filter":
         {
             "defaultValue": "",
-            "type": "String",
+            "type": "string",
             "metadata":
             {
                 "description": "Inventory Asset Query"
@@ -96,7 +96,7 @@
         "stateValue":
         {
             "defaultValue": " ",
-            "type": "String",
+            "type": "string",
             "allowedValues":
             [
                 " ",
@@ -144,72 +144,76 @@
                         "EASMWorkspaceName":
                         {
                             "defaultValue": "",
-                            "type": "String"
+                            "type": "string"
                         },
                         "LabelName":
                         {
-                            "type": "String"
+                            "type": "string"
                         },
                         "LabelColor":
                         {
                             "defaultValue": "blue",
-                            "type": "String"
+                            "type": "string"
                         },
                         "LabelDisplayName":
                         {
                             "defaultValue": "",
-                            "type": "String"
+                            "type": "string"
                         },
                         "Region":
                         {
                             "defaultValue": "[resourceGroup().location]",
-                            "type": "String"
+                            "type": "string",
+                            "metadata":
+                            {
+                                "description": "Region where EASM is deployed"
+                            }
                         },
                         "ResourceGroupName":
                         {
                             "defaultValue": "[resourceGroup().name]",
-                            "type": "String"
+                            "type": "string"
                         },
                         "SubscriptionId":
                         {
                             "defaultValue": "[subscription().subscriptionId]",
-                            "type": "String"
+                            "type": "string"
                         },
                         "TenantId":
                         {
                             "defaultValue": "",
-                            "type": "String"
+                            "type": "string"
                         },
                         "api-version":
                         {
                             "defaultValue": "2022-11-01-preview",
-                            "type": "String"
+                            "type": "string"
                         },
                         "filter":
                         {
                             "defaultValue": "",
-                            "type": "String"
+                            "type": "string"
                         },
                         "maxpagesize":
                         {
                             "defaultValue": "50",
-                            "type": "String"
+                            "type": "string"
                         },
                         "stateValue":
                         {
                             "defaultValue": "",
-                            "type": "String"
+                            "type": "string"
                         },
                         "RunFrequency":
                         {
                             "defaultValue": 24,
-                            "type": "Int"
+                            "type": "int"
                         },
                         "$connections":
                         {
                             "defaultValue":
                             {},
-                            "type": "Object"
+                            "type": "object"
                         }
                     },
                     "triggers":
