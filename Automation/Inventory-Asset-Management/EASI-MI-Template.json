@@ -131,7 +131,7 @@
             "type": "Microsoft.Logic/workflows",
             "apiVersion": "2017-07-01",
             "name": "[parameters('workflows_EASI-MI-LA-AssetManagement_name')]",
-            "location": "[parameters('EASM_Region')]",
+            "location": "[resourceGroup().location]",
             "identity":
             {
                 "type": "UserAssigned",
@@ -172,6 +172,11 @@
                         "EASM_Region":
                         {
                             "defaultValue": "parameters('EASM_Region')",
+                            "type": "string"
+                        },
+                        "Region":
+                        {
+                            "defaultValue": "[resourceGroup().location]",
                             "type": "string"
                         },
                         "ResourceGroupName":
