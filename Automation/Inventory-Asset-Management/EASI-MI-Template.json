@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters":
     {
-        "EASM_Region":
+        "EASMRegion":
         {
             "defaultValue": "eastus",
             "type": "string",
@@ -169,9 +169,9 @@
                             "defaultValue": "",
                             "type": "string"
                         },
-                        "EASM_Region":
+                        "EASMRegion":
                         {
-                            "defaultValue": "eastus",
+                            "defaultValue": "[parameters('EASMRegion')]",
                             "type": "string"
                         },
                         "Region":
@@ -267,7 +267,7 @@
                             "type": "Http",
                             "inputs":
                             {
-                                "uri": "https://@{parameters('EASM_Region')}.easm.defender.microsoft.com/subscriptions/@{parameters('SubscriptionId')}/resourceGroups/@{parameters('ResourceGroupName')}/workspaces/@{parameters('EASMWorkspaceName')}/assets",
+                                "uri": "https://@{parameters('EASMRegion')}.easm.defender.microsoft.com/subscriptions/@{parameters('SubscriptionId')}/resourceGroups/@{parameters('ResourceGroupName')}/workspaces/@{parameters('EASMWorkspaceName')}/assets",
                                 "method": "PATCH",
                                 "headers":
                                 {
