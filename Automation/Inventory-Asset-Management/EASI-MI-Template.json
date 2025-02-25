@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters":
     {
-        "Region":
+        "EASM_Region":
         {
             "defaultValue": "eastus",
             "type": "string",
@@ -131,7 +131,7 @@
             "type": "Microsoft.Logic/workflows",
             "apiVersion": "2017-07-01",
             "name": "[parameters('workflows_EASI-MI-LA-AssetManagement_name')]",
-            "location": "eastus",
+            "location": "[parameters('EASM_Region')]",
             "identity":
             {
                 "type": "UserAssigned",
@@ -171,7 +171,7 @@
                         },
                         "Region":
                         {
-                            "defaultValue": "eastus",
+                            "defaultValue": "parameters('EASM_Region')",
                             "type": "string"
                         },
                         "ResourceGroupName":
@@ -229,13 +229,13 @@
                             {
                                 "frequency": "Hour",
                                 "timeZone": "Central Standard Time",
-                                "interval": 12
+                                "interval": "parameters('RunFrequency')"
                             },
                             "evaluatedRecurrence":
                             {
                                 "frequency": "Hour",
                                 "timeZone": "Central Standard Time",
-                                "interval": 12
+                                "interval": "parameters('RunFrequency')"
                             },
                             "type": "Recurrence",
                             "runtimeConfiguration":
@@ -262,7 +262,7 @@
                             "type": "Http",
                             "inputs":
                             {
-                                "uri": "https://@{parameters('Region')}.easm.defender.microsoft.com/subscriptions/@{parameters('SubscriptionId')}/resourceGroups/@{parameters('ResourceGroupName')}/workspaces/@{parameters('EASMWorkspaceName')}/assets",
+                                "uri": "https://@{parameters('EASM_Region')}.easm.defender.microsoft.com/subscriptions/@{parameters('SubscriptionId')}/resourceGroups/@{parameters('ResourceGroupName')}/workspaces/@{parameters('EASMWorkspaceName')}/assets",
                                 "method": "PATCH",
                                 "headers":
                                 {
@@ -501,7 +501,7 @@
                                     "type": "Http",
                                     "inputs":
                                     {
-                                        "uri": "https://@{parameters('Region')}.easm.defender.microsoft.com/subscriptions/@{parameters('SubscriptionId')}/resourceGroups/@{parameters('ResourceGroupName')}/workspaces/@{parameters('EASMWorkspaceName')}/assets",
+                                        "uri": "https://@{parameters('EASM_Region')}.easm.defender.microsoft.com/subscriptions/@{parameters('SubscriptionId')}/resourceGroups/@{parameters('ResourceGroupName')}/workspaces/@{parameters('EASMWorkspaceName')}/assets",
                                         "method": "PATCH",
                                         "headers":
                                         {
@@ -628,7 +628,7 @@
                                     "type": "Http",
                                     "inputs":
                                     {
-                                        "uri": "https://@{parameters('Region')}.easm.defender.microsoft.com/subscriptions/@{parameters('SubscriptionId')}/resourceGroups/@{parameters('ResourceGroupName')}/workspaces/@{parameters('EASMWorkspaceName')}/tasks/@{variables('JobId')}",
+                                        "uri": "https://@{parameters('EASM_Region')}.easm.defender.microsoft.com/subscriptions/@{parameters('SubscriptionId')}/resourceGroups/@{parameters('ResourceGroupName')}/workspaces/@{parameters('EASMWorkspaceName')}/tasks/@{variables('JobId')}",
                                         "method": "GET",
                                         "headers":
                                         {
@@ -700,7 +700,7 @@
                     },
                     "Region":
                     {
-                        "value": "[parameters('Region')]"
+                        "value": "[parameters('EASM_Region')]"
                     },
                     "EASMWorkspaceName":
                     {
