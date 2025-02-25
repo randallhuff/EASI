@@ -3,6 +3,15 @@
     "contentVersion": "1.0.0.0",
     "parameters":
     {
+        "Region":
+        {
+            "defaultValue": "eastus",
+            "type": "string",
+            "metadata":
+            {
+                "description": "Region where EASM is deployed"
+            }
+        },
         "workflows_EASI-MI-LA-AssetManagement_name":
         {
             "defaultValue": "EASI-MI-LA-AssetManagement",
@@ -162,12 +171,8 @@
                         },
                         "Region":
                         {
-                            "defaultValue": "",
-                            "type": "string",
-                            "metadata":
-                            {
-                                "description": "Region where EASM is deployed"
-                            }
+                            "defaultValue": "eastus",
+                            "type": "string"
                         },
                         "ResourceGroupName":
                         {
@@ -692,6 +697,10 @@
                     {
                         "value":
                         {}
+                    },
+                    "Region":
+                    {
+                        "value": "[parameters('Region')]"
                     },
                     "EASMWorkspaceName":
                     {
