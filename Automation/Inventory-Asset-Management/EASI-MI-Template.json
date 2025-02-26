@@ -705,7 +705,7 @@
                     },
                     "EASMRegion":
                     {
-                        "value": "[parameters('EASM_Region')]"
+                        "value": "[parameters('EASMRegion')]"
                     },
                     "EASMWorkspaceName":
                     {
