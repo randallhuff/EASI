@@ -633,7 +633,7 @@
                                     "type": "Http",
                                     "inputs":
                                     {
-                                        "uri": "https://@{parameters('EASM_Region')}.easm.defender.microsoft.com/subscriptions/@{parameters('SubscriptionId')}/resourceGroups/@{parameters('ResourceGroupName')}/workspaces/@{parameters('EASMWorkspaceName')}/tasks/@{variables('JobId')}",
+                                        "uri": "https://@{parameters('EASMRegion')}.easm.defender.microsoft.com/subscriptions/@{parameters('SubscriptionId')}/resourceGroups/@{parameters('ResourceGroupName')}/workspaces/@{parameters('EASMWorkspaceName')}/tasks/@{variables('JobId')}",
                                         "method": "GET",
                                         "headers":
                                         {
